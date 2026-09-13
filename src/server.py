@@ -127,6 +127,9 @@ def start_background_server(port: int = 8000) -> Tuple[ThreadingHTTPServer, thre
 
 
 if __name__ == "__main__":
+    from src.security.env_validator import enforce_environment
+    enforce_environment()
+
     parser = argparse.ArgumentParser(description="AgentPulse Ingestion Server")
     parser.add_argument("--host", type=str, default="0.0.0.0", help="Host interface")
     parser.add_argument("--port", type=int, default=8000, help="Listening port")

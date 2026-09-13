@@ -51,6 +51,10 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+# Security Authorization Gate: Requires valid authorized .env file to run
+from src.security.env_validator import render_streamlit_lock_if_unauthorized
+render_streamlit_lock_if_unauthorized()
+
 # Initialize Database
 init_db()
 

@@ -30,6 +30,9 @@ if sys.platform == "win32":
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+from src.security.env_validator import enforce_environment
+enforce_environment()
+
 from src.core.dataset import DatasetLoader
 from src.agent.customer_support_agent import CustomerSupportAgent, run_customer_support_agent
 from src.agent.customer_support_tools import ALL_SUPPORT_TOOLS

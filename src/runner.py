@@ -20,9 +20,9 @@ import argparse
 import json
 import os
 import sys
-from dotenv import load_dotenv
-
-load_dotenv()
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.security.env_validator import enforce_environment
+enforce_environment()
 
 # Ensure UTF-8 output on Windows so emoji characters (✅/❌) print correctly.
 if sys.platform == "win32":
