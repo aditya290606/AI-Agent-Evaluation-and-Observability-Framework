@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  eval-dashboard:
+    build: .
+    container_name: agent_eval_dashboard
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app
+    environment:
+      - USE_MOCK_LLM=true
+      - DATABASE_URL=sqlite:///./eval_framework.db
+    restart: unless-stopped

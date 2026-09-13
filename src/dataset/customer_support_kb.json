@@ -1,0 +1,38 @@
+[
+  {
+    "id": "KB-001",
+    "topic": "return_policy",
+    "title": "Return & Refund Policy",
+    "content": "Customers may return unopened items within 30 days of delivery for a full refund with original receipt or proof of purchase. Opened electronic items are subject to a 15% restocking fee deducted from the refund amount. Digital goods, software keys, and gift cards are strictly non-refundable."
+  },
+  {
+    "id": "KB-002",
+    "topic": "warranty",
+    "title": "Hardware Warranty Coverage",
+    "content": "All hardware products come with a 1-year limited manufacturer warranty covering hardware defects in materials and workmanship under normal use. The warranty excludes accidental damage, water damage, drops, unauthorized repairs, or normal cosmetic wear and tear."
+  },
+  {
+    "id": "KB-003",
+    "topic": "shipping",
+    "title": "Domestic Shipping Options & Timelines",
+    "content": "Standard shipping takes 3-5 business days and costs $4.99 (or free for orders over $50). Express shipping takes 1-2 business days and costs $14.99. Overnight shipping is available for $24.99 on orders placed before 2 PM EST."
+  },
+  {
+    "id": "KB-004",
+    "topic": "international_shipping",
+    "title": "International Shipping Restrictions",
+    "content": "International shipping is currently not supported. We only ship domestically within the continental United States and Canada. Orders addressed to overseas freight forwarders or international destinations outside North America will be cancelled automatically."
+  },
+  {
+    "id": "KB-005",
+    "topic": "cancellation",
+    "title": "Order Cancellation Window",
+    "content": "Orders can be cancelled free of charge within 1 hour of placement before they enter warehouse fulfillment. Once an order status changes to 'Processing' or 'Shipped', cancellation is no longer possible and the package must be returned after delivery."
+  },
+  {
+    "id": "KB-006",
+    "topic": "support_hours",
+    "title": "Customer Support Hours and Channels",
+    "content": "Our automated AI assistant and live chat are available 24/7. Live phone support is available Monday through Friday from 9:00 AM to 6:00 PM EST. Inquiries submitted via email are answered within 24 hours."
+  }
+]

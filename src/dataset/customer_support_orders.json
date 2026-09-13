@@ -1,0 +1,94 @@
+[
+  {
+    "order_id": "ORD-8821",
+    "customer_name": "Sarah Jenkins",
+    "status": "Shipped",
+    "carrier": "FedEx",
+    "tracking_number": "FX-99201",
+    "eta": "Tomorrow by 5 PM",
+    "items": [
+      {
+        "name": "ErgoStand Laptop Stand",
+        "qty": 1,
+        "price": 45.00
+      }
+    ],
+    "total": 45.00,
+    "destination": "Austin, TX",
+    "notes": "Package in transit from Dallas distribution hub"
+  },
+  {
+    "order_id": "ORD-9042",
+    "customer_name": "Marcus Vance",
+    "status": "Delivered",
+    "carrier": "UPS",
+    "tracking_number": "1Z999AA10123456784",
+    "delivered_date": "Yesterday at 2:15 PM",
+    "items": [
+      {
+        "name": "NoiseCancel Pro Wireless Headphones",
+        "qty": 1,
+        "price": 120.00
+      }
+    ],
+    "total": 120.00,
+    "return_eligible": true,
+    "destination": "Seattle, WA",
+    "notes": "Delivered to front porch; signed by customer"
+  },
+  {
+    "order_id": "ORD-7715",
+    "customer_name": "Elena Rostova",
+    "status": "Processing",
+    "carrier": "Pending Carrier Assignment",
+    "tracking_number": "N/A",
+    "eta": "Estimated to ship tomorrow from East Logistics Hub",
+    "items": [
+      {
+        "name": "MechKeys Mechanical Keyboard",
+        "qty": 1,
+        "price": 89.00
+      }
+    ],
+    "total": 89.00,
+    "destination": "Boston, MA",
+    "notes": "Fulfillment queued in packaging queue"
+  },
+  {
+    "order_id": "ORD-6230",
+    "customer_name": "David Kim",
+    "status": "Delayed",
+    "carrier": "USPS",
+    "tracking_number": "US-44102",
+    "hold_reason": "Severe winter weather disruption at regional sorting facility in Chicago; hold expected 24 to 48 hours",
+    "eta": "Friday by 8 PM",
+    "items": [
+      {
+        "name": "PulseWatch Smart Watch",
+        "qty": 1,
+        "price": 199.00
+      }
+    ],
+    "total": 199.00,
+    "destination": "Chicago, IL",
+    "notes": "Weather exception scan logged at Chicago O'Hare sorting hub"
+  },
+  {
+    "order_id": "ORD-5501",
+    "customer_name": "Priya Sharma",
+    "status": "Cancelled",
+    "carrier": "N/A",
+    "tracking_number": "N/A",
+    "refund_status": "Refunded $65.00 to Visa ending in 4128 on September 10, 2026",
+    "items": [
+      {
+        "name": "USB-C Multiport Dock",
+        "qty": 1,
+        "price": 65.00
+      }
+    ],
+    "total": 65.00,
+    "destination": "San Jose, CA",
+    "notes": "Cancelled by customer within 1-hour grace window"
+  }
+]

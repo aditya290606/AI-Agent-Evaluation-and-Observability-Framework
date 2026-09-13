@@ -1,0 +1,42 @@
+[
+  {
+    "id": "kb001",
+    "title": "Company Refund Policy",
+    "content": "Refunds are issued within 7 business days of a return being received at the warehouse. Digital products are non-refundable after download. Refunds are credited to the original payment method only."
+  },
+  {
+    "id": "kb002",
+    "title": "Shipping Timelines",
+    "content": "Standard shipping takes 5-7 business days within the country. Express shipping takes 1-2 business days and costs an additional 499 INR. International shipping is not currently supported."
+  },
+  {
+    "id": "kb003",
+    "title": "Subscription Plans",
+    "content": "The Basic plan costs 499 INR per month and includes 10GB storage. The Pro plan costs 1499 INR per month and includes 100GB storage plus priority support. Annual billing gives a 20% discount on both plans."
+  },
+  {
+    "id": "kb004",
+    "title": "Account Security",
+    "content": "Two-factor authentication can be enabled from Settings > Security. Passwords must be at least 10 characters and are hashed using bcrypt before storage. Sessions expire after 30 days of inactivity."
+  },
+  {
+    "id": "kb005",
+    "title": "API Rate Limits",
+    "content": "Free tier API keys are limited to 60 requests per minute and 5000 requests per day. Paid tier keys are limited to 600 requests per minute with no daily cap. Rate limit headers are returned on every response."
+  },
+  {
+    "id": "kb006",
+    "title": "Data Retention Policy",
+    "content": "User activity logs are retained for 90 days. Deleted accounts are permanently purged after a 30-day grace period. Backups are retained for 1 year for disaster recovery purposes only."
+  },
+  {
+    "id": "kb007",
+    "title": "Support Response Times",
+    "content": "Basic plan users receive email support with a 48-hour response target. Pro plan users receive priority support with a 4-hour response target during business hours (9 AM - 6 PM IST, Monday to Friday)."
+  },
+  {
+    "id": "kb008",
+    "title": "Cancellation Policy",
+    "content": "Subscriptions can be cancelled anytime from Account Settings. Cancellation takes effect at the end of the current billing cycle; no partial refunds are given for unused time in the current cycle."
+  }
+]
