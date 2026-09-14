@@ -17,7 +17,15 @@ load_dotenv()
 
 from sqlalchemy import event
 
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./eval_framework.db")
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    if os.getenv("VERCEL") or os.getenv("AWS_LAMBDA_FUNCTION_NAME"):
+        DATABASE_URL = "sqlite:////tmp/eval_framework.db"
+    else:
+        DATABASE_URL = "sqlite:///./eval_framework.db"
+elif DATABASE_URL.startswith("sqlite") and (os.getenv("VERCEL") or os.getenv("AWS_LAMBDA_FUNCTION_NAME")):
+    if "///./" in DATABASE_URL:
+        DATABASE_URL = "sqlite:////tmp/eval_framework.db"
 
 # check_same_thread=False and timeout=30.0 for robust multi-threaded SQLite concurrency.
 connect_args = {"check_same_thread": False, "timeout": 30.0} if DATABASE_URL.startswith("sqlite") else {}
@@ -28,7 +36,10 @@ if DATABASE_URL.startswith("sqlite"):
     @event.listens_for(engine, "connect")
     def set_sqlite_pragma(dbapi_connection, connection_record):
         cursor = dbapi_connection.cursor()
-        cursor.execute("PRAGMA journal_mode=WAL;")
+        if os.getenv("VERCEL") or os.getenv("AWS_LAMBDA_FUNCTION_NAME"):
+            cursor.execute("PRAGMA journal_mode=MEMORY;")
+        else:
+            cursor.execute("PRAGMA journal_mode=WAL;")
         cursor.execute("PRAGMA busy_timeout=30000;")
         cursor.execute("PRAGMA synchronous=NORMAL;")
         cursor.close()

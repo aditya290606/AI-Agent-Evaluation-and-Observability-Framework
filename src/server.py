@@ -128,103 +128,124 @@ def start_background_server(port: int = 8000) -> Tuple[ThreadingHTTPServer, thre
 
 def app(environ, start_response):
     """WSGI standard application entry point for Vercel, Gunicorn, Render, and Serverless platforms."""
-    init_db()
-    method = environ.get("REQUEST_METHOD", "GET").upper()
-    path = environ.get("PATH_INFO", "/")
-
-    # Healthcheck endpoints
-    if method == "GET" and path in ("/health", "/v1/health", "/", ""):
-        body = json.dumps({
-            "status": "healthy",
-            "service": "AgentPulse Ingestion API",
-            "version": "1.0.0",
-            "time": time.time(),
-        }).encode("utf-8")
-        start_response("200 OK", [
-            ("Content-Type", "application/json"),
-            ("Content-Length", str(len(body))),
-        ])
-        return [body]
-
-    # Telemetry ingestion endpoints
-    if method == "POST" and path in ("/v1/spans", "/v1/telemetry", "/spans", "/telemetry"):
-        # Authenticate
-        api_key = environ.get("HTTP_X_API_KEY")
-        if not api_key:
-            auth = environ.get("HTTP_AUTHORIZATION", "")
-            if auth.startswith("Bearer "):
-                api_key = auth[7:].strip()
-
-        if not authenticate_api_key(api_key):
-            body = json.dumps({"error": "Unauthorized: Invalid or missing API key"}).encode("utf-8")
-            start_response("401 Unauthorized", [
-                ("Content-Type", "application/json"),
-                ("Content-Length", str(len(body))),
-            ])
-            return [body]
-
+    try:
         try:
-            content_length = int(environ.get("CONTENT_LENGTH", 0))
-        except (ValueError, TypeError):
-            content_length = 0
+            init_db()
+        except Exception as db_err:
+            # Non-fatal in serverless environments if already initialized or permissions vary
+            pass
 
-        if content_length == 0:
-            body = json.dumps({"error": "Empty request body"}).encode("utf-8")
-            start_response("400 Bad Request", [
-                ("Content-Type", "application/json"),
-                ("Content-Length", str(len(body))),
-            ])
-            return [body]
+        method = environ.get("REQUEST_METHOD", "GET").upper()
+        path = environ.get("PATH_INFO", "/") or "/"
 
-        if content_length > 5 * 1024 * 1024:  # 5MB max payload limit
-            body = json.dumps({"error": "Payload exceeds maximum 5MB size limit"}).encode("utf-8")
-            start_response("413 Request Entity Too Large", [
-                ("Content-Type", "application/json"),
-                ("Content-Length", str(len(body))),
-            ])
-            return [body]
-
-        raw_body = environ["wsgi.input"].read(content_length)
-        try:
-            payload = json.loads(raw_body.decode("utf-8"))
-        except Exception as e:
-            body = json.dumps({"error": f"Invalid JSON payload: {e}"}).encode("utf-8")
-            start_response("400 Bad Request", [
-                ("Content-Type", "application/json"),
-                ("Content-Length", str(len(body))),
-            ])
-            return [body]
-
-        try:
-            result = ingest_span_telemetry(payload, auto_evaluate=True)
-            body = json.dumps(result).encode("utf-8")
+        # Healthcheck and root endpoints
+        if method == "GET" and path in ("/health", "/v1/health", "/", ""):
+            body = json.dumps({
+                "status": "healthy",
+                "service": "AgentPulse Ingestion API",
+                "version": "1.0.0",
+                "time": time.time(),
+                "endpoints": {
+                    "health": "/health",
+                    "telemetry_spans": "/v1/spans",
+                },
+                "notice": "AgentPulse Ingestion API is active. To launch the interactive visual evaluation console, run: streamlit run dashboard/app.py",
+            }, indent=2).encode("utf-8")
             start_response("200 OK", [
                 ("Content-Type", "application/json"),
                 ("Content-Length", str(len(body))),
             ])
             return [body]
-        except IngestionValidationError as val_err:
-            body = json.dumps({"error": f"Validation error: {str(val_err)}"}).encode("utf-8")
-            start_response("400 Bad Request", [
-                ("Content-Type", "application/json"),
-                ("Content-Length", str(len(body))),
-            ])
-            return [body]
-        except Exception as e:
-            body = json.dumps({"error": f"Failed to persist span: {str(e)}"}).encode("utf-8")
-            start_response("500 Internal Server Error", [
-                ("Content-Type", "application/json"),
-                ("Content-Length", str(len(body))),
-            ])
-            return [body]
 
-    # Not found
-    body = json.dumps({"error": "Not Found"}).encode("utf-8")
-    start_response("404 Not Found", [
-        ("Content-Type", "application/json"),
-        ("Content-Length", str(len(body))),
-    ])
-    return [body]
+        # Telemetry ingestion endpoints
+        if method == "POST" and path in ("/v1/spans", "/v1/telemetry", "/spans", "/telemetry"):
+            # Authenticate
+            api_key = environ.get("HTTP_X_API_KEY")
+            if not api_key:
+                auth = environ.get("HTTP_AUTHORIZATION", "")
+                if auth.startswith("Bearer "):
+                    api_key = auth[7:].strip()
+
+            if not authenticate_api_key(api_key):
+                body = json.dumps({"error": "Unauthorized: Invalid or missing API key"}).encode("utf-8")
+                start_response("401 Unauthorized", [
+                    ("Content-Type", "application/json"),
+                    ("Content-Length", str(len(body))),
+                ])
+                return [body]
+
+            try:
+                content_length = int(environ.get("CONTENT_LENGTH", 0))
+            except (ValueError, TypeError):
+                content_length = 0
+
+            if content_length == 0:
+                body = json.dumps({"error": "Empty request body"}).encode("utf-8")
+                start_response("400 Bad Request", [
+                    ("Content-Type", "application/json"),
+                    ("Content-Length", str(len(body))),
+                ])
+                return [body]
+
+            if content_length > 5 * 1024 * 1024:  # 5MB max payload limit
+                body = json.dumps({"error": "Payload exceeds maximum 5MB size limit"}).encode("utf-8")
+                start_response("413 Request Entity Too Large", [
+                    ("Content-Type", "application/json"),
+                    ("Content-Length", str(len(body))),
+                ])
+                return [body]
+
+            raw_body = environ["wsgi.input"].read(content_length)
+            try:
+                payload = json.loads(raw_body.decode("utf-8"))
+            except Exception as e:
+                body = json.dumps({"error": f"Invalid JSON payload: {e}"}).encode("utf-8")
+                start_response("400 Bad Request", [
+                    ("Content-Type", "application/json"),
+                    ("Content-Length", str(len(body))),
+                ])
+                return [body]
+
+            try:
+                result = ingest_span_telemetry(payload, auto_evaluate=True)
+                body = json.dumps(result).encode("utf-8")
+                start_response("200 OK", [
+                    ("Content-Type", "application/json"),
+                    ("Content-Length", str(len(body))),
+                ])
+                return [body]
+            except IngestionValidationError as val_err:
+                body = json.dumps({"error": f"Validation error: {str(val_err)}"}).encode("utf-8")
+                start_response("400 Bad Request", [
+                    ("Content-Type", "application/json"),
+                    ("Content-Length", str(len(body))),
+                ])
+                return [body]
+            except Exception as e:
+                body = json.dumps({"error": f"Failed to persist span: {str(e)}"}).encode("utf-8")
+                start_response("500 Internal Server Error", [
+                    ("Content-Type", "application/json"),
+                    ("Content-Length", str(len(body))),
+                ])
+                return [body]
+
+        # Not found
+        body = json.dumps({"error": "Not Found", "requested_path": path}).encode("utf-8")
+        start_response("404 Not Found", [
+            ("Content-Type", "application/json"),
+            ("Content-Length", str(len(body))),
+        ])
+        return [body]
+    except Exception as exc:
+        err_body = json.dumps({
+            "error": "Internal Server Error",
+            "message": str(exc),
+        }).encode("utf-8")
+        start_response("500 Internal Server Error", [
+            ("Content-Type", "application/json"),
+            ("Content-Length", str(len(err_body))),
+        ])
+        return [err_body]
 
 
 # Top-level exports for Vercel, Gunicorn, uWSGI, and Serverless deployment platforms
