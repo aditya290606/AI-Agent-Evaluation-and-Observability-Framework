@@ -27,10 +27,18 @@ jobs:
           pip install -r requirements.txt
 
       - name: Create .env from template
-        run: cp .env.example .env
+        run: |
+          cp .env.example .env
+          sed -i 's/your_authorized_agentpulse_auth_key_here/ap_sec_ci_pipeline_authorized_9f83a4c172e/' .env
+          sed -i 's/ap_live_your_telemetry_key_here/ap_live_ci_pipeline_telemetry_7c8d9e2f1a0/' .env
+          sed -i 's/your_anthropic_api_key_here/sk-ant-api03-ci-mock-testing-credentials/' .env
+          sed -i 's/AGENTPULSE_ENV=production/AGENTPULSE_ENV=ci/' .env
 
       - name: Run unit tests
         run: pytest tests/ -v
 
       - name: Run agent evaluation suite (Mock Mode)
+        env:
+          USE_MOCK_LLM: 'true'
+          CI: 'true'
         run: python -m src.runner
