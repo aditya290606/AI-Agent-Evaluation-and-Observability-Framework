@@ -60,7 +60,326 @@ init_db()
 
 # Luxury Dark Aesthetic Design System CSS
 st.markdown(
-    """ <style> @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap'); /* Hide Streamlit default header chrome */ header[data-testid="stHeader"] { display: none !important; } #MainMenu { visibility: hidden !important; } footer { visibility: hidden !important; } /* Global Reset & Background */ html, body, [class*="css"] { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; } .stApp { background: radial-gradient(ellipse at 50% -10%, #0d1a33 0%, #080c14 70%, #05080e 100%) fixed !important; color: #f1f5f9; } /* Subtle scrollbars */ ::-webkit-scrollbar { width: 6px; height: 6px; } ::-webkit-scrollbar-track { background: rgba(8, 12, 20, 0.5); } ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.2); border-radius: 4px; } ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.4); } /* Sidebar Styling */ section[data-testid="stSidebar"] { background: rgba(10, 15, 29, 0.95) !important; border-right: 1px solid rgba(255, 255, 255, 0.08) !important; backdrop-filter: blur(20px) !important; min-width: 290px !important; } section[data-testid="stSidebar"] div[data-testid="stSidebarUserContent"] { padding-top: 1.2rem; padding-left: 1rem; padding-right: 1rem; } /* Sidebar Section Group Headers */ .sidebar-group-header { font-size: 10px !important; font-weight: 700 !important; letter-spacing: 0.12em !important; color: #64748b !important; text-transform: uppercase !important; margin-top: 14px !important; margin-bottom: 6px !important; padding-left: 6px !important; } /* Sidebar Nav Buttons Styling */ section[data-testid="stSidebar"] div[data-testid="stButton"] { margin-bottom: 3px !important; } section[data-testid="stSidebar"] div[data-testid="stButton"] > button { display: flex !important; justify-content: flex-start !important; align-items: center !important; text-align: left !important; width: 100% !important; border-radius: 8px !important; padding: 8px 12px !important; font-size: 12.5px !important; font-weight: 600 !important; letter-spacing: 0.01em !important; transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important; box-shadow: none !important; min-height: 38px !important; } /* Inactive Nav Buttons (Secondary) */ section[data-testid="stSidebar"] div[data-testid="stButton"] > button[kind="secondary"] { background: rgba(15, 23, 42, 0.45) !important; color: #94a3b8 !important; border: 1px solid rgba(255, 255, 255, 0.05) !important; } section[data-testid="stSidebar"] div[data-testid="stButton"] > button[kind="secondary"]:hover { background: rgba(56, 189, 248, 0.1) !important; color: #f1f5f9 !important; border-color: rgba(56, 189, 248, 0.35) !important; transform: translateX(4px) !important; } /* Active Nav Button (Primary) */ section[data-testid="stSidebar"] div[data-testid="stButton"] > button[kind="primary"] { background: linear-gradient(90deg, rgba(56, 189, 248, 0.22) 0%, rgba(99, 102, 241, 0.16) 100%) !important; color: #38bdf8 !important; font-weight: 700 !important; border: 1px solid rgba(56, 189, 248, 0.5) !important; border-left: 4px solid #38bdf8 !important; box-shadow: 0 0 16px rgba(56, 189, 248, 0.2), inset 0 0 8px rgba(56, 189, 248, 0.06) !important; transform: translateX(2px) !important; } /* Segmented Control Styling */ div[data-testid="stSegmentedControl"] { background: rgba(15, 23, 42, 0.6) !important; border: 1px solid rgba(255, 255, 255, 0.08) !important; border-radius: 8px !important; padding: 3px !important; } div[data-testid="stSegmentedControl"] button { border-radius: 6px !important; font-size: 11.5px !important; font-weight: 600 !important; color: #94a3b8 !important; transition: all 0.15s ease !important; } div[data-testid="stSegmentedControl"] button[aria-checked="true"] { background: rgba(56, 189, 248, 0.22) !important; color: #38bdf8 !important; border: 1px solid #38bdf8 !important; font-weight: 700 !important; } /* Sidebar Filter Labels */ section[data-testid="stSidebar"] label[data-testid="stWidgetLabel"] p, section[data-testid="stSidebar"] .stSelectbox label p, section[data-testid="stSidebar"] .stMultiSelect label p { color: #94a3b8 !important; font-size: 11px !important; font-weight: 700 !important; text-transform: uppercase !important; letter-spacing: 0.08em !important; margin-bottom: 2px !important; display: block !important; visibility: visible !important; } /* BaseWeb Selectboxes & MultiSelect */ div[data-baseweb="select"] { border-radius: 8px !important; } div[data-baseweb="select"] > div { background-color: rgba(15, 23, 42, 0.75) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important; border-radius: 8px !important; min-height: 38px !important; } div[data-baseweb="select"] span, div[data-baseweb="select"] div { color: #f1f5f9 !important; font-size: 12.5px !important; font-weight: 500 !important; } div[data-baseweb="select"]:hover > div { border-color: rgba(56, 189, 248, 0.4) !important; } div[data-baseweb="popover"] { background: #0b1120 !important; border: 1px solid rgba(255, 255, 255, 0.12) !important; border-radius: 8px !important; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7) !important; } div[data-baseweb="popover"] li { color: #cbd5e1 !important; font-size: 12.5px !important; } div[data-baseweb="popover"] li:hover { background-color: rgba(56, 189, 248, 0.15) !important; color: #38bdf8 !important; } /* Glassmorphic KPI Cards Hover Lift */ .kpi-glass-card { transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important; } .kpi-glass-card:hover { transform: translateY(-3px) !important; box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(56, 189, 248, 0.3) !important; } /* Run Row Container Card */ .run-row-card { background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.07); border-radius: 10px; padding: 14px 18px; margin-bottom: 10px; transition: all 0.2s ease; } .run-row-card:hover { background: rgba(15, 23, 42, 0.85); border-color: rgba(56, 189, 248, 0.25); transform: translateY(-1px); } /* Buttons Styling */ .stButton > button { background: rgba(30, 41, 59, 0.8) !important; color: #f8fafc !important; border: 1px solid rgba(255, 255, 255, 0.12) !important; border-radius: 8px !important; font-weight: 600 !important; font-size: 12.5px !important; padding: 6px 14px !important; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important; backdrop-filter: blur(8px) !important; } .stButton > button:hover { border-color: #38bdf8 !important; color: #38bdf8 !important; box-shadow: 0 0 14px rgba(56, 189, 248, 0.25) !important; transform: translateY(-1px) !important; } .stButton > button[kind="primary"] { background: linear-gradient(135deg, #0284c7 0%, #4f46e5 100%) !important; color: #ffffff !important; border: none !important; box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35) !important; } .stButton > button[kind="primary"]:hover { box-shadow: 0 6px 20px rgba(2, 132, 199, 0.5) !important; transform: translateY(-1px) !important; } /* Streamlit Expanders */ div[data-testid="stExpander"] { background: rgba(15, 23, 42, 0.5) !important; border: 1px solid rgba(255, 255, 255, 0.08) !important; border-radius: 10px !important; margin-bottom: 12px !important; } /* Streamlit Tabs */ button[data-baseweb="tab"] { font-family: 'Plus Jakarta Sans', sans-serif !important; font-weight: 600 !important; font-size: 13px !important; color: #94a3b8 !important; padding: 10px 16px !important; border-bottom: 2px solid transparent !important; } button[data-baseweb="tab"][aria-selected="true"] { color: #38bdf8 !important; border-bottom: 2px solid #38bdf8 !important; text-shadow: 0 0 10px rgba(56, 189, 248, 0.4) !important; } input, textarea { background-color: rgba(15, 23, 42, 0.8) !important; border-color: rgba(255, 255, 255, 0.1) !important; color: #f1f5f9 !important; border-radius: 8px !important; } /* Streamlit Metric Overrides */ div[data-testid="stMetricValue"] { font-family: 'JetBrains Mono', monospace !important; font-weight: 700 !important; } </style> """,
+    """
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+    /* Hide Streamlit default header chrome */
+    header[data-testid="stHeader"] { display: none !important; }
+    #MainMenu { visibility: hidden !important; }
+    footer { visibility: hidden !important; }
+
+    /* Global Reset & Background */
+    html, body, [class*="css"] {
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    .stApp {
+        background: radial-gradient(ellipse at 50% -10%, #0d1a33 0%, #080c14 70%, #05080e 100%) fixed !important;
+        color: #f1f5f9;
+    }
+
+    /* Subtle scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(8, 12, 20, 0.5); }
+    ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.2); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.4); }
+
+    /* Sidebar Base Styling */
+    section[data-testid="stSidebar"] {
+        background: rgba(10, 15, 29, 0.95) !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+        backdrop-filter: blur(20px) !important;
+        min-width: 290px !important;
+    }
+    section[data-testid="stSidebar"] div[data-testid="stSidebarUserContent"] {
+        padding-top: 1.2rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    /* ==========================================================================
+       UNIFIED BUTTON SYSTEM (Issue 1: Consolidate 9 distinct button styles to <= 4)
+       Style 1: Primary Action CTA
+       Style 2: Secondary / Outline Button
+       Style 3: Sidebar Navigation Item (Inactive & Active)
+       Style 4: Utility / Collapse / Icon Button
+       ========================================================================== */
+
+    /* Style 1: Primary CTA */
+    .stButton > button[kind="primary"] {
+        background: linear-gradient(135deg, #0284c7 0%, #4f46e5 100%) !important;
+        color: #ffffff !important;
+        border: 1px solid rgba(56, 189, 248, 0.4) !important;
+        border-radius: 8px !important;
+        font-weight: 600 !important;
+        font-size: 13px !important;
+        padding: 8px 16px !important;
+        min-height: 38px !important;
+        box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35) !important;
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        cursor: pointer !important;
+    }
+    .stButton > button[kind="primary"]:hover {
+        box-shadow: 0 6px 20px rgba(2, 132, 199, 0.5) !important;
+        transform: translateY(-1px) !important;
+    }
+
+    /* Style 2: Secondary / Standard Outline Button */
+    .stButton > button,
+    .stButton > button[kind="secondary"] {
+        background: rgba(15, 23, 42, 0.65) !important;
+        color: #cbd5e1 !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 8px !important;
+        font-weight: 600 !important;
+        font-size: 13px !important;
+        padding: 8px 16px !important;
+        min-height: 38px !important;
+        box-shadow: none !important;
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        cursor: pointer !important;
+    }
+    .stButton > button:hover,
+    .stButton > button[kind="secondary"]:hover {
+        background: rgba(56, 189, 248, 0.12) !important;
+        color: #f8fafc !important;
+        border-color: rgba(56, 189, 248, 0.4) !important;
+        box-shadow: 0 0 12px rgba(56, 189, 248, 0.2) !important;
+        transform: translateY(-1px) !important;
+    }
+
+    /* Style 3: Sidebar Navigation List Buttons */
+    section[data-testid="stSidebar"] div[data-testid="stButton"] {
+        margin-bottom: 4px !important;
+    }
+    section[data-testid="stSidebar"] div[data-testid="stButton"] > button {
+        display: flex !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        text-align: left !important;
+        width: 100% !important;
+        border-radius: 8px !important;
+        padding: 8px 12px !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.01em !important;
+        min-height: 38px !important;
+        transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    section[data-testid="stSidebar"] div[data-testid="stButton"] > button[kind="secondary"] {
+        background: rgba(15, 23, 42, 0.45) !important;
+        color: #94a3b8 !important;
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
+    section[data-testid="stSidebar"] div[data-testid="stButton"] > button[kind="secondary"]:hover {
+        background: rgba(56, 189, 248, 0.1) !important;
+        color: #f1f5f9 !important;
+        border-color: rgba(56, 189, 248, 0.35) !important;
+        transform: translateX(3px) !important;
+    }
+    section[data-testid="stSidebar"] div[data-testid="stButton"] > button[kind="primary"] {
+        background: linear-gradient(90deg, rgba(56, 189, 248, 0.22) 0%, rgba(99, 102, 241, 0.16) 100%) !important;
+        color: #38bdf8 !important;
+        font-weight: 700 !important;
+        border: 1px solid rgba(56, 189, 248, 0.5) !important;
+        border-left: 4px solid #38bdf8 !important;
+        box-shadow: 0 0 16px rgba(56, 189, 248, 0.2), inset 0 0 8px rgba(56, 189, 248, 0.06) !important;
+        transform: translateX(2px) !important;
+    }
+
+    /* Style 4: Utility / Sidebar Collapse Button (Issue 11) */
+    section[data-testid="stSidebar"] button[data-testid="stBaseButton-headerNoPadding"],
+    section[data-testid="stSidebar"] button[kind="headerNoPadding"],
+    button[data-testid="stBaseButton-headerNoPadding"] {
+        background: rgba(30, 41, 59, 0.75) !important;
+        border: 1px solid rgba(56, 189, 248, 0.3) !important;
+        border-radius: 8px !important;
+        width: 32px !important;
+        height: 32px !important;
+        min-height: 32px !important;
+        padding: 4px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+        cursor: pointer !important;
+    }
+    section[data-testid="stSidebar"] button[data-testid="stBaseButton-headerNoPadding"]:hover,
+    section[data-testid="stSidebar"] button[kind="headerNoPadding"]:hover,
+    button[data-testid="stBaseButton-headerNoPadding"]:hover {
+        background: rgba(56, 189, 248, 0.2) !important;
+        border-color: #38bdf8 !important;
+        box-shadow: 0 0 12px rgba(56, 189, 248, 0.4) !important;
+        transform: scale(1.05) !important;
+    }
+    section[data-testid="stSidebar"] button[data-testid="stBaseButton-headerNoPadding"] svg,
+    section[data-testid="stSidebar"] button[kind="headerNoPadding"] svg,
+    section[data-testid="stSidebar"] button[data-testid="stBaseButton-headerNoPadding"] span,
+    section[data-testid="stSidebar"] button[kind="headerNoPadding"] span {
+        color: #38bdf8 !important;
+        fill: #38bdf8 !important;
+    }
+
+    /* Segmented Control Styling */
+    div[data-testid="stSegmentedControl"] {
+        background: rgba(15, 23, 42, 0.6) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 8px !important;
+        padding: 3px !important;
+    }
+    div[data-testid="stSegmentedControl"] button {
+        border-radius: 6px !important;
+        font-size: 12px !important;
+        font-weight: 600 !important;
+        color: #94a3b8 !important;
+        transition: all 0.15s ease !important;
+    }
+    div[data-testid="stSegmentedControl"] button[aria-checked="true"] {
+        background: rgba(56, 189, 248, 0.22) !important;
+        color: #38bdf8 !important;
+        border: 1px solid #38bdf8 !important;
+        font-weight: 700 !important;
+    }
+
+    /* Body / Filter Labels Typography (Issues 2 & 3: min 12-13px font size & no all-caps) */
+    section[data-testid="stSidebar"] label[data-testid="stWidgetLabel"] p,
+    section[data-testid="stSidebar"] .stSelectbox label p,
+    section[data-testid="stSidebar"] .stMultiSelect label p,
+    section[data-testid="stSidebar"] .stDateInput label p,
+    label[data-testid="stWidgetLabel"] p {
+        color: #cbd5e1 !important;
+        font-size: 13px !important;
+        line-height: 1.4 !important;
+        font-weight: 600 !important;
+        text-transform: none !important;
+        letter-spacing: normal !important;
+        margin-bottom: 4px !important;
+        display: block !important;
+        visibility: visible !important;
+    }
+
+    /* BaseWeb Selectboxes & MultiSelect */
+    div[data-baseweb="select"] {
+        border-radius: 8px !important;
+    }
+    div[data-baseweb="select"] > div {
+        background-color: rgba(15, 23, 42, 0.75) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 8px !important;
+        min-height: 38px !important;
+    }
+    div[data-baseweb="select"] span, div[data-baseweb="select"] div {
+        color: #f1f5f9 !important;
+        font-size: 13px !important;
+        font-weight: 500 !important;
+    }
+    div[data-baseweb="select"]:hover > div {
+        border-color: rgba(56, 189, 248, 0.4) !important;
+    }
+    div[data-baseweb="popover"] {
+        background: #0b1120 !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        border-radius: 8px !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7) !important;
+    }
+    div[data-baseweb="popover"] li {
+        color: #cbd5e1 !important;
+        font-size: 13px !important;
+    }
+    div[data-baseweb="popover"] li:hover {
+        background-color: rgba(56, 189, 248, 0.15) !important;
+        color: #38bdf8 !important;
+    }
+
+    /* Advanced Sections Expander - seamless navigation menu integration (Issue 5) */
+    section[data-testid="stSidebar"] div[data-testid="stExpander"] {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        margin: 4px 0 !important;
+        padding: 0 !important;
+    }
+    section[data-testid="stSidebar"] div[data-testid="stExpander"] > details {
+        border: none !important;
+        background: transparent !important;
+    }
+    section[data-testid="stSidebar"] div[data-testid="stExpander"] summary {
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        background: rgba(15, 23, 42, 0.45) !important;
+        border-radius: 8px !important;
+        padding: 8px 12px !important;
+        color: #94a3b8 !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        transition: all 0.18s ease !important;
+    }
+    section[data-testid="stSidebar"] div[data-testid="stExpander"] summary:hover {
+        background: rgba(56, 189, 248, 0.1) !important;
+        border-color: rgba(56, 189, 248, 0.35) !important;
+        color: #f1f5f9 !important;
+    }
+
+    /* Streamlit Expanders in Main Content */
+    div[data-testid="stExpander"] {
+        background: rgba(15, 23, 42, 0.5) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 10px !important;
+        margin-bottom: 12px !important;
+    }
+
+    /* Glassmorphic KPI Cards Hover Lift */
+    .kpi-glass-card {
+        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .kpi-glass-card:hover {
+        transform: translateY(-3px) !important;
+        box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(56, 189, 248, 0.3) !important;
+    }
+
+    /* Run Row Container Card */
+    .run-row-card {
+        background: rgba(15, 23, 42, 0.65);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 10px;
+        padding: 14px 18px;
+        margin-bottom: 10px;
+        transition: all 0.2s ease;
+    }
+    .run-row-card:hover {
+        background: rgba(15, 23, 42, 0.85);
+        border-color: rgba(56, 189, 248, 0.25);
+        transform: translateY(-1px);
+    }
+
+    /* Streamlit Tabs */
+    button[data-baseweb="tab"] {
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
+        font-weight: 600 !important;
+        font-size: 13px !important;
+        color: #94a3b8 !important;
+        padding: 10px 16px !important;
+        border-bottom: 2px solid transparent !important;
+    }
+    button[data-baseweb="tab"][aria-selected="true"] {
+        color: #38bdf8 !important;
+        border-bottom: 2px solid #38bdf8 !important;
+        text-shadow: 0 0 10px rgba(56, 189, 248, 0.4) !important;
+    }
+    input, textarea {
+        background-color: rgba(15, 23, 42, 0.8) !important;
+        border-color: rgba(255, 255, 255, 0.1) !important;
+        color: #f1f5f9 !important;
+        border-radius: 8px !important;
+    }
+
+    /* Streamlit Metric Overrides */
+    div[data-testid="stMetricValue"] {
+        font-family: 'JetBrains Mono', monospace !important;
+        font-weight: 700 !important;
+    }
+    </style>
+    """,
     unsafe_allow_html=True,
 )
 
@@ -267,8 +586,8 @@ if "nav_section" not in st.session_state or st.session_state["nav_section"] not 
 
 # ── Demo section buttons (always visible, top priority) ─────────────────────
 st.sidebar.markdown(
-    '<div style="font-size:10px; font-weight:700; color:#38bdf8; text-transform:uppercase; '
-    'letter-spacing:.12em; margin-bottom:8px; padding: 0 2px;">🎬 DEMO FLOW</div>',
+    '<div style="font-size:10.5px; font-weight:700; color:#38bdf8; text-transform:uppercase; '
+    'letter-spacing:.12em; margin-top:14px; margin-bottom:14px; padding: 0 4px;">🎬 DEMO FLOW</div>',
     unsafe_allow_html=True,
 )
 for label, code in DEMO_SECTIONS:
@@ -302,81 +621,32 @@ with st.sidebar.expander("⚙️ Advanced Sections", expanded=False):
 
 selected_section = st.session_state["nav_section"]
 
-st.sidebar.markdown("<div style='margin-top: 14px; margin-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.08);'></div>", unsafe_allow_html=True)
-
-# Refresh Data button
-_refresh_col, _ts_col = st.sidebar.columns([1, 1])
-with _refresh_col:
-    if st.button("🔄 Refresh Data", key="sidebar_refresh_btn", width="stretch", help="Reload run data from the database"):
-        load_data.clear()
-        load_steps.clear()
-        _load_tags.clear()
-        st.rerun()
-with _ts_col:
-    import datetime as _dt
-    st.markdown(
-        f"<div style='font-size:10px; color:#64748b; padding-top:10px; text-align:right;'>"
-        f"Cache: 60 s<br/>Live on nav</div>",
-        unsafe_allow_html=True,
-    )
-
-# Global Filters Header
+# ── Global Filters & Data Cache Control (Issues 9 & 10) ────────────────────
 st.sidebar.markdown(
-    """ <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;"> <span>🔍</span> GLOBAL FILTERS </div> """,
+    "<div style='margin-top: 16px; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08);'></div>",
+    unsafe_allow_html=True,
+)
+st.sidebar.markdown(
+    """
+    <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
+        <span style="display: flex; align-items: center; gap: 6px;"><span>🔍</span> GLOBAL FILTERS</span>
+        <span style="font-size: 10px; color: #64748b; font-family: 'JetBrains Mono', monospace;">TTL 60s</span>
+    </div>
+    """,
     unsafe_allow_html=True,
 )
 
+if st.sidebar.button("🔄 Refresh Data Cache", key="sidebar_refresh_btn", width="stretch", help="Reload run and telemetry data from the database"):
+    load_data.clear()
+    load_steps.clear()
+    _load_tags.clear()
+    st.rerun()
 
-# Filter: Agent
+# Primary Filter: Agent (Immediately accessible)
 all_agents = ["All Agents"] + sorted(runs_df["agent_name"].dropna().unique().tolist()) if not runs_df.empty else ["All Agents"]
 selected_agent = st.sidebar.selectbox("Agent", all_agents, index=0)
 
-# Filter: Agent Version (dependent)
-if selected_agent != "All Agents" and not runs_df.empty:
-    agent_runs = runs_df[runs_df["agent_name"] == selected_agent]
-    avail_versions = ["All Versions"] + sorted(agent_runs["agent_version"].dropna().unique().tolist())
-else:
-    avail_versions = ["All Versions"] + (sorted(runs_df["agent_version"].dropna().unique().tolist()) if not runs_df.empty else [])
-selected_version = st.sidebar.selectbox("Agent Version", avail_versions, index=0)
-
-# Filter: Date Range
-with st.sidebar.expander("📅 Date Range Filter", expanded=False):
-    date_filter_active = st.checkbox("Enable Date Range Filter", value=False)
-    start_date = st.date_input("Start Date", value=datetime.date.today() - datetime.timedelta(days=30))
-    end_date = st.date_input("End Date", value=datetime.date.today())
-
-# Filter: Dataset / Experiment
-all_exp = ["All Datasets/Experiments"] + (sorted(runs_df["experiment_id"].dropna().unique().tolist()) if not runs_df.empty else [])
-selected_dataset = st.sidebar.selectbox("Dataset / Experiment", all_exp, index=0)
-
-# Filter: Test ID
-all_task_ids = sorted(runs_df["task_id"].dropna().unique().tolist()) if not runs_df.empty else []
-selected_tests = st.sidebar.multiselect("Test ID", all_task_ids, default=[], help="Leave empty to include all test IDs.")
-
-# Filter: Execution Mode
-mode_choice = st.sidebar.segmented_control(
-    "Execution Mode",
-    ["All", "Mock Only", "Live Only", "SDK Only"],
-    default="All",
-    key="sb_exec_mode"
-)
-mode_filter = mode_choice if mode_choice is not None else "All"
-
-# Filter: Model
-all_models = ["All Models"] + (sorted(runs_df["model"].dropna().unique().tolist()) if not runs_df.empty else [])
-selected_model = st.sidebar.selectbox("Model", all_models, index=0)
-
-# Filter: Metric
-all_metric_names = sorted(evals_df["metric_name"].dropna().unique().tolist()) if not evals_df.empty else []
-preselected_metrics = st.session_state.pop("global_metric_filter", [])
-selected_metrics = st.sidebar.multiselect(
-    "Evaluation Metric",
-    all_metric_names,
-    default=[m for m in preselected_metrics if m in all_metric_names],
-    help="Filter evaluation assertions."
-)
-
-# Filter: Status (All / Passed / Failed)
+# Primary Filter: Status (Immediately accessible)
 status_choice = st.sidebar.segmented_control(
     "Status",
     ["All", "Passed", "Failed"],
@@ -384,6 +654,53 @@ status_choice = st.sidebar.segmented_control(
     key="sb_status"
 )
 status_filter = status_choice if status_choice is not None else "All"
+
+# Secondary Filters: Grouped inside collapsible expander to reduce excessive scrolling (Issue 9)
+with st.sidebar.expander("⚙️ More Filters (Version, Model, Metric)", expanded=False):
+    # Filter: Agent Version (dependent)
+    if selected_agent != "All Agents" and not runs_df.empty:
+        agent_runs = runs_df[runs_df["agent_name"] == selected_agent]
+        avail_versions = ["All Versions"] + sorted(agent_runs["agent_version"].dropna().unique().tolist())
+    else:
+        avail_versions = ["All Versions"] + (sorted(runs_df["agent_version"].dropna().unique().tolist()) if not runs_df.empty else [])
+    selected_version = st.selectbox("Agent Version", avail_versions, index=0)
+
+    # Filter: Dataset / Experiment
+    all_exp = ["All Datasets/Experiments"] + (sorted(runs_df["experiment_id"].dropna().unique().tolist()) if not runs_df.empty else [])
+    selected_dataset = st.selectbox("Dataset / Experiment", all_exp, index=0)
+
+    # Filter: Model
+    all_models = ["All Models"] + (sorted(runs_df["model"].dropna().unique().tolist()) if not runs_df.empty else [])
+    selected_model = st.selectbox("Model", all_models, index=0)
+
+    # Filter: Metric
+    all_metric_names = sorted(evals_df["metric_name"].dropna().unique().tolist()) if not evals_df.empty else []
+    preselected_metrics = st.session_state.pop("global_metric_filter", [])
+    selected_metrics = st.multiselect(
+        "Evaluation Metric",
+        all_metric_names,
+        default=[m for m in preselected_metrics if m in all_metric_names],
+        help="Filter evaluation assertions."
+    )
+
+    # Filter: Execution Mode
+    mode_choice = st.segmented_control(
+        "Execution Mode",
+        ["All", "Mock Only", "Live Only", "SDK Only"],
+        default="All",
+        key="sb_exec_mode"
+    )
+    mode_filter = mode_choice if mode_choice is not None else "All"
+
+    # Filter: Test ID
+    all_task_ids = sorted(runs_df["task_id"].dropna().unique().tolist()) if not runs_df.empty else []
+    selected_tests = st.multiselect("Test ID", all_task_ids, default=[], help="Leave empty to include all test IDs.")
+
+    # Filter: Date Range
+    st.markdown("<div style='font-size:12px; font-weight:600; color:#94a3b8; margin-top:8px;'>Date Range</div>", unsafe_allow_html=True)
+    date_filter_active = st.checkbox("Enable Date Range Filter", value=False)
+    start_date = st.date_input("Start Date", value=datetime.date.today() - datetime.timedelta(days=30))
+    end_date = st.date_input("End Date", value=datetime.date.today())
 
 # Sidebar: Scoring Weights & Presets
 with st.sidebar.expander("⚖️ Scoring Presets & Weights", expanded=False):

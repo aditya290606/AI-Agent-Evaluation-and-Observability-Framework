@@ -174,7 +174,32 @@ def render_overview(
     )
 
     if filtered_runs.empty:
-        st.info("No runs found matching active filters. Run an evaluation or adjust the sidebar filters.")
+        with st.container(border=True):
+            st.markdown(
+                """
+                <div style="text-align: center; padding: 28px 16px;">
+                    <div style="font-size: 32px; margin-bottom: 10px;">🔍</div>
+                    <div style="font-size: 16px; font-weight: 700; color: #f8fafc; margin-bottom: 6px;">
+                        No Evaluations Match Current Filters
+                    </div>
+                    <div style="font-size: 13px; color: #94a3b8; max-width: 480px; margin: 0 auto 18px auto; line-height: 1.5;">
+                        No evaluation runs matched your active filters. You can trigger a new evaluation benchmark or reset your sidebar filters to see all recorded telemetry.
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+            col_cta1, col_cta2, col_cta3 = st.columns([1, 1.3, 1])
+            with col_cta2:
+                btn_run, btn_reset = st.columns(2)
+                with btn_run:
+                    if st.button("🚀 Run Evaluation", key="empty_run_eval_btn", type="primary", use_container_width=True):
+                        navigate_to("🚀 Evaluation Runs")
+                with btn_reset:
+                    if st.button("🔄 Reset Filters", key="empty_reset_filters_btn", type="secondary", use_container_width=True):
+                        for k in ["sb_exec_mode", "sb_status", "global_metric_filter"]:
+                            st.session_state.pop(k, None)
+                        st.rerun()
         return
 
     # ---------------------------------------------------------------------------

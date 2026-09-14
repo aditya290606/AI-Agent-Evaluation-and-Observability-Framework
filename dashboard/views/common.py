@@ -43,16 +43,23 @@ def render_section_header(title: str, subtitle: str = "", breadcrumb: str = "CON
     """
     badge_html = ""
     if action_badge:
-        badge_html = f'<div style="background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; font-family: \'JetBrains Mono\', monospace; font-size: 11px; padding: 4px 10px; border-radius: 9999px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#38bdf8; box-shadow:0 0 8px #38bdf8;"></span>{action_badge}</div>'
+        badge_html = (
+            f'<div style="background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); '
+            f'color: #38bdf8; font-family: \'JetBrains Mono\', monospace; font-size: 11px; padding: 3px 10px; '
+            f'border-radius: 9999px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; '
+            f'vertical-align: middle;">'
+            f'<span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#38bdf8; '
+            f'box-shadow:0 0 8px #38bdf8;"></span>{action_badge}</div>'
+        )
 
     html = (
-        f'<div style="margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid rgba(255, 255, 255, 0.07); display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 12px;">'
-        f'<div>'
+        f'<div style="margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid rgba(255, 255, 255, 0.07);">'
         f'<div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 4px;">{breadcrumb}</div>'
+        f'<div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 4px;">'
         f'<h1 style="margin: 0; font-size: 28px; font-weight: 800; color: #f8fafc; letter-spacing: -0.02em; font-family: \'Plus Jakarta Sans\', sans-serif;">{title}</h1>'
-        f'<div style="font-size: 13px; color: #94a3b8; margin-top: 4px;">{subtitle}</div>'
+        f'{badge_html}'
         f'</div>'
-        f'<div>{badge_html}</div>'
+        f'<div style="font-size: 13px; color: #94a3b8;">{subtitle}</div>'
         f'</div>'
     )
     st.markdown(html, unsafe_allow_html=True)
