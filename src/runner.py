@@ -141,6 +141,9 @@ def main():
     if not use_mock and args.inject_bug:
         print("--inject-bug only works in mock mode; ignoring.")
 
+    # Guarantee database schema and baseline seeding exist
+    init_db()
+
     # 1. Load dataset (from custom JSON, tag filter, single test ID, or default golden tasks)
     if args.dataset:
         dataset = DatasetLoader.from_json(args.dataset)

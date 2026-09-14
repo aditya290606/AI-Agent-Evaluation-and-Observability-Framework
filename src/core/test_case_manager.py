@@ -11,7 +11,7 @@ import time
 import uuid
 from typing import List, Optional, Dict, Any, Tuple, Callable
 
-from src.storage.db import get_session
+from src.storage.db import get_session, init_db
 from src.storage.models import TestCaseRecord
 from src.core.entities import TestCase, EvaluationDataset, Trace, EvaluationResult
 from src.core.agent_interface import BaseAgent
@@ -67,6 +67,7 @@ class TestCaseManager:
         )
 
     def __init__(self):
+        init_db()
         # Guarantee baseline test cases from golden_tasks.json exist in database
         self.sync_baseline_tests()
 
