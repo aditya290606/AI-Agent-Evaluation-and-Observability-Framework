@@ -224,13 +224,17 @@ def render_traces(
     if default_run_id not in all_run_ids:
         default_run_id = all_run_ids[0]
 
+    run_label_map = {
+        row["run_id"]: f"Run #{row['run_id']} — Task: {row.get('task_id', '')} ({str(row.get('query', ''))[:45]}...)"
+        for row in filtered_runs.to_dict(orient="records")
+    }
     sel_c1, sel_c2 = st.columns([3, 1])
     with sel_c1:
         selected_run_id = st.selectbox(
             "Select Run ID to Inspect",
             all_run_ids,
             index=all_run_ids.index(default_run_id),
-            format_func=lambda x: f"Run #{x} — Task: {filtered_runs[filtered_runs['run_id'] == x].iloc[0]['task_id']} ({filtered_runs[filtered_runs['run_id'] == x].iloc[0]['query'][:45]}...)",
+            format_func=lambda x: run_label_map.get(x, f"Run #{x}"),
             key="trace_run_selector"
         )
     with sel_c2:

@@ -55,11 +55,13 @@ def render_eval_runs(
         if not exp_ids:
             st.info("No batch evaluation suites logged yet. Run a dataset in the 'Datasets' section to view batch runs.")
         else:
+            exp_counts = filtered_runs["experiment_id"].value_counts().to_dict()
+            exp_agents = filtered_runs.drop_duplicates("experiment_id").set_index("experiment_id")["agent_name"].to_dict()
             sel_exp_id = st.selectbox(
                 "Select Batch Evaluation Suite",
                 exp_ids,
                 index=0,
-                format_func=lambda eid: f"Suite #{eid} — ({len(filtered_runs[filtered_runs['experiment_id'] == eid])} tests) · {filtered_runs[filtered_runs['experiment_id'] == eid].iloc[0].get('agent_name', 'Agent')}",
+                format_func=lambda eid: f"Suite #{eid} — ({exp_counts.get(eid, 0)} tests) · {exp_agents.get(eid, 'Agent')}",
                 key="eval_runs_suite_selector"
             )
 
@@ -239,23 +241,28 @@ def render_eval_runs(
     # TAB 2: All Individual Test Runs Catalog
     # ---------------------------------------------------------------------------
     with tab_individual:
-        # Compute run verdicts and scores
-        run_records = []
-        pass_count = 0
-        fail_count = 0
-
-        for _, r in filtered_runs.iterrows():
-            rid = r["run_id"]
-            run_ev = filtered_evals[filtered_evals["run_id"] == rid] if not filtered_evals.empty else pd.DataFrame()
-            ev_objs = []
-            for _, erow in run_ev.iterrows():
-                ev_objs.append(EvaluationResult(
+        # Pre-group evaluation results by run_id in a single pass O(E)
+        eval_map: Dict[Any, List[EvaluationResult]] = {}
+        if not filtered_evals.empty:
+            for erow in filtered_evals.to_dict(orient="records"):
+                rid = erow["run_id"]
+                if rid not in eval_map:
+                    eval_map[rid] = []
+                eval_map[rid].append(EvaluationResult(
                     metric_name=erow["metric_name"],
                     score=float(erow["score"]),
                     passed=bool(erow["passed"]),
                     threshold=float(erow.get("threshold", 1.0) or 1.0),
                     explanation=erow.get("details", "") or "",
                 ))
+
+        run_records = []
+        pass_count = 0
+        fail_count = 0
+
+        for r in filtered_runs.to_dict(orient="records"):
+            rid = r["run_id"]
+            ev_objs = eval_map.get(rid, [])
             c_summary = calculate_case_scores(ev_objs, scoring_config)
             is_pass = c_summary["passed"]
             if is_pass:

@@ -37,25 +37,26 @@ def _compute_run_scores(
     if filtered_runs.empty:
         return run_scores
 
-    grouped = (
-        {rid: grp for rid, grp in filtered_evals.groupby("run_id")}
-        if not filtered_evals.empty
-        else {}
-    )
+    if not filtered_evals.empty:
+        records = filtered_evals.to_dict(orient="records")
+        grouped: Dict[Any, List[EvaluationResult]] = {}
+        for row in records:
+            rid = row["run_id"]
+            if rid not in grouped:
+                grouped[rid] = []
+            grouped[rid].append(EvaluationResult(
+                metric_name=row["metric_name"],
+                score=float(row["score"]),
+                passed=bool(row["passed"]),
+                threshold=float(row.get("threshold", 1.0) or 1.0),
+                explanation=row.get("details", "") or "",
+                evaluator_type=row.get("evaluator_type", "deterministic"),
+            ))
+    else:
+        grouped = {}
 
     for rid in filtered_runs["run_id"]:
-        grp = grouped.get(rid)
-        ev_objs = []
-        if grp is not None:
-            for _, row in grp.iterrows():
-                ev_objs.append(EvaluationResult(
-                    metric_name=row["metric_name"],
-                    score=float(row["score"]),
-                    passed=bool(row["passed"]),
-                    threshold=float(row.get("threshold", 1.0) or 1.0),
-                    explanation=row.get("details", "") or "",
-                    evaluator_type=row.get("evaluator_type", "deterministic"),
-                ))
+        ev_objs = grouped.get(rid, [])
         run_scores[rid] = calculate_case_scores(ev_objs, scoring_config)
     return run_scores
 
@@ -356,8 +357,10 @@ def render_overview(
             if len(runs_sorted) > 500:
                 runs_sorted = runs_sorted.iloc[::max(1, len(runs_sorted) // 500)]
             if len(runs_sorted) >= 2:
+                # Group by timestamp and agent to eliminate duplicate timestamp points and zigzag artifacts
+                chart_runs = runs_sorted.groupby(["created_at", "agent_name"], as_index=False)["latency_ms"].mean()
                 fig_trend = px.line(
-                    runs_sorted, x="created_at", y="latency_ms", color="agent_name",
+                    chart_runs, x="created_at", y="latency_ms", color="agent_name",
                     markers=True,
                     labels={"created_at": "Time", "latency_ms": "Latency (ms)", "agent_name": "Agent"},
                     color_discrete_sequence=["#38bdf8", "#818cf8", "#34d399", "#f59e0b"],

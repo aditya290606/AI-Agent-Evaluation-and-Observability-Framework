@@ -44,29 +44,29 @@ def render_failures(
     )
 
     # Pre-group evals once (eliminates N per-run pandas scans)
-    eval_groups = (
-        {rid: grp for rid, grp in filtered_evals.groupby("run_id")}
-        if not filtered_evals.empty else {}
-    )
-
-    # Find failed runs
-    failed_runs_list = []
-    for _, r in filtered_runs.iterrows():
-        rid = r["run_id"]
-        run_ev = eval_groups.get(rid, pd.DataFrame())
-        ev_objs = []
-        for _, erow in run_ev.iterrows():
-            ev_objs.append(EvaluationResult(
+    eval_map: Dict[Any, List[EvaluationResult]] = {}
+    if not filtered_evals.empty:
+        for erow in filtered_evals.to_dict(orient="records"):
+            rid = erow["run_id"]
+            if rid not in eval_map:
+                eval_map[rid] = []
+            eval_map[rid].append(EvaluationResult(
                 metric_name=erow["metric_name"],
                 score=float(erow["score"]),
                 passed=bool(erow["passed"]),
                 threshold=float(erow.get("threshold", 1.0) or 1.0),
                 explanation=erow.get("details", "") or "",
             ))
+
+    # Find failed runs
+    failed_runs_list = []
+    for r in filtered_runs.to_dict(orient="records"):
+        rid = r["run_id"]
+        ev_objs = eval_map.get(rid, [])
         c_summary = calculate_case_scores(ev_objs, scoring_config)
         has_failed_eval = any(not e.passed for e in ev_objs)
         if not c_summary["passed"] or has_failed_eval:
-            failed_runs_list.append((rid, r, c_summary, ev_objs))
+            failed_runs_list.append((rid, pd.Series(r), c_summary, ev_objs))
 
     # Top KPI Cards for Failures
     f1, f2, f3, f4 = st.columns(4)

@@ -24,7 +24,7 @@ class DatasetManager:
         init_db()
         self.tc_manager = tc_manager or TestCaseManager()
 
-    def _record_to_entity(self, record: DatasetRecord) -> EvaluationDataset:
+    def _record_to_entity(self, record: DatasetRecord, tc_cache: Optional[Dict[str, TestCase]] = None) -> EvaluationDataset:
         test_ids = []
         if record.test_case_ids:
             try:
@@ -35,7 +35,7 @@ class DatasetManager:
         # Hydrate full TestCase objects
         test_cases: List[TestCase] = []
         for tid in test_ids:
-            tc = self.tc_manager.get_test_case(tid)
+            tc = tc_cache.get(tid) if tc_cache is not None else self.tc_manager.get_test_case(tid)
             if tc:
                 test_cases.append(tc)
             else:
@@ -122,8 +122,11 @@ class DatasetManager:
         session = get_session()
         try:
             records = session.query(DatasetRecord).order_by(DatasetRecord.name.asc(), DatasetRecord.created_at.desc()).all()
+            all_tc = self.tc_manager.list_test_cases()
+            tc_map = {tc.test_id: tc for tc in all_tc}
+
             if not latest_only:
-                return [self._record_to_entity(r) for r in records]
+                return [self._record_to_entity(r, tc_cache=tc_map) for r in records]
 
             # Keep only latest version per dataset_id
             seen_ids = set()
@@ -131,7 +134,7 @@ class DatasetManager:
             for r in records:
                 if r.dataset_id not in seen_ids:
                     seen_ids.add(r.dataset_id)
-                    latest_entities.append(self._record_to_entity(r))
+                    latest_entities.append(self._record_to_entity(r, tc_cache=tc_map))
             return latest_entities
         finally:
             session.close()
@@ -143,7 +146,9 @@ class DatasetManager:
             records = session.query(DatasetRecord).filter(
                 DatasetRecord.dataset_id == dataset_id.strip()
             ).order_by(DatasetRecord.created_at.asc()).all()
-            return [self._record_to_entity(r) for r in records]
+            all_tc = self.tc_manager.list_test_cases()
+            tc_map = {tc.test_id: tc for tc in all_tc}
+            return [self._record_to_entity(r, tc_cache=tc_map) for r in records]
         finally:
             session.close()
 

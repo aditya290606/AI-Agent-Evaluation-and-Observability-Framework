@@ -160,7 +160,7 @@ def render_datasets(
                             selected_new_ids = st.multiselect(
                                 "Included Test Cases",
                                 options=all_tc_options,
-                                default=list(current_ids),
+                                default=[tid for tid in current_ids if tid in all_tc_options],
                                 format_func=lambda tid: f"{tid} — {next((tc.name for tc in all_available_tcs if tc.test_id == tid), tid)}",
                                 key=f"manage_tc_multi_{ds_id}_{latest.version}",
                             )

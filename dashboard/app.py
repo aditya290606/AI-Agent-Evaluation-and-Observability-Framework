@@ -165,6 +165,7 @@ def load_data():
                 "is_mock": r.is_mock,
                 "integration_type": integration_type,
                 "created_at": r.created_at,
+                "created_date": r.created_at.date() if hasattr(r.created_at, 'date') else (pd.to_datetime(r.created_at).date() if r.created_at else None),
                 "score": avg_score / 100.0,
                 "quality_score": avg_score,
                 "passed": all_passed,
@@ -447,9 +448,12 @@ if not filtered_runs.empty:
     elif mode_filter == "SDK Only":
         filtered_runs = filtered_runs[filtered_runs["integration_type"] == "sdk"]
 
-    if date_filter_active and "created_at" in filtered_runs.columns:
-        filtered_runs["created_date"] = pd.to_datetime(filtered_runs["created_at"]).dt.date
-        filtered_runs = filtered_runs[(filtered_runs["created_date"] >= start_date) & (filtered_runs["created_date"] <= end_date)]
+    if date_filter_active and "created_date" in filtered_runs.columns:
+        filtered_runs = filtered_runs[
+            filtered_runs["created_date"].notna() &
+            (filtered_runs["created_date"] >= start_date) &
+            (filtered_runs["created_date"] <= end_date)
+        ]
 
     # Filter evals by matching run_ids
     if not filtered_evals.empty:
